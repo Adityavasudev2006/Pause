@@ -69,7 +69,8 @@ PORT=10000
   ```
   [Professional Summary Example]
   Dynamic and results-oriented Software Engineer with 5+ years of experience in developing, testing, and maintaining scalable web applications. Proficient in Python, Django, and React. Seeking to leverage expertise in full-stack development to contribute to the innovative team at [Company Name].
-  ```
+  ...
+
 
 [Work Experience Example - Action Verbs]
 
@@ -78,12 +79,16 @@ PORT=10000
 - Collaborated with a cross-functional team of 5 to define project requirements and deliver solutions ahead of schedule.
 - Optimized database queries and caching mechanisms, reducing server load by 20%.
 
+...
+
 [Skills Section Example]
 
 - Languages: Python, JavaScript, SQL, HTML/CSS
 - Frameworks: Django, Flask, React, Node.js
 - Databases: PostgreSQL, MongoDB, Redis
 - Tools: Docker, Git, Jenkins, AWS
+
+...
 
 [Project Section Example]
 
