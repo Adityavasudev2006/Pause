@@ -66,8 +66,8 @@ PORT=10000
 
 - Create an `resume_examples.txt` file in the project root with sample resume examples (optional, as the app includes default examples).
 - Example format for `resume_examples.txt`:
-
-  [Professional Summary Example]
+```
+[Professional Summary Example]
   Dynamic and results-oriented Software Engineer with 5+ years of experience in developing, testing, and maintaining scalable web applications. Proficient in Python, Django, and React. Seeking to leverage expertise in full-stack development to contribute to the innovative team at [Company Name].
 
 [Work Experience Example - Action Verbs]
@@ -88,6 +88,7 @@ PORT=10000
 
 - Personal Portfolio Website: Developed a fully responsive personal website using Flask and deployed on Heroku to showcase projects.
 - E-commerce Analytics Dashboard: Built a data visualization tool with Plotly Dash to track sales metrics and customer behavior for a mock e-commerce site.
+```
 
 ### 6. Running the App
 
