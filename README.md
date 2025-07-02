@@ -28,3 +28,9 @@ Pause is an AI-powered resume builder that transforms your experience into job-r
 ```bash
 git clone https://github.com/your-username/pause-ai-resume-builder.git
 cd pause-ai-resume-builder
+
+### 2. Create and Activate a Virtual Environment
+#### Windows
+```bash
+python -m venv venv
+venv\Scripts\activate
