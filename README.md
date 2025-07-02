@@ -25,42 +25,84 @@ Pause is an AI-powered resume builder that transforms your experience into job-r
 ## Installation & Setup
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/your-username/pause-ai-resume-builder.git
 cd pause-ai-resume-builder
 ```
 
 ### 2. Create and Activate a Virtual Environment
+
 #### Windows
+
 ```bash
 python -m venv venv
 venv\Scripts\activate
 ```
+
 #### macOS / Linux
+
 ```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
 ### 3. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 4. Set Up Environment Variables
+
 #### Create a .env file in the root of the project:
+
 ```bash
 GOOGLE_API_KEY=your_google_api_key
 PORT=10000
 ```
 
-### 5. Running the App
+### 5. Set Up Environment Variables
+
+- Create an `resume_examples.txt` file in the project root with sample resume examples (optional, as the app includes default examples).
+- Example format for `resume_examples.txt`:
+  ```
+  [Professional Summary Example]
+  Dynamic and results-oriented Software Engineer with 5+ years of experience in developing, testing, and maintaining scalable web applications. Proficient in Python, Django, and React. Seeking to leverage expertise in full-stack development to contribute to the innovative team at [Company Name].
+  ```
+
+[Work Experience Example - Action Verbs]
+
+- Led the development of a new customer-facing feature using React and Redux, resulting in a 15% increase in user engagement.
+- Architected and implemented a RESTful API service with Python and Django, improving system response time by 30%.
+- Collaborated with a cross-functional team of 5 to define project requirements and deliver solutions ahead of schedule.
+- Optimized database queries and caching mechanisms, reducing server load by 20%.
+
+[Skills Section Example]
+
+- Languages: Python, JavaScript, SQL, HTML/CSS
+- Frameworks: Django, Flask, React, Node.js
+- Databases: PostgreSQL, MongoDB, Redis
+- Tools: Docker, Git, Jenkins, AWS
+
+[Project Section Example]
+
+- Personal Portfolio Website: Developed a fully responsive personal website using Flask and deployed on Heroku to showcase projects.
+- E-commerce Analytics Dashboard: Built a data visualization tool with Plotly Dash to track sales metrics and customer behavior for a mock e-commerce site.
+  ```
+
+  ```
+
+### 6. Running the App
+
 ```bash
 python app.py
 ```
+
 #### Visit the app at: http://localhost:10000
 
 ## File Structure
+
 ```
 ├── app.py                    # Main Flask application
 ├── templates/                # HTML templates (index.html)
@@ -72,6 +114,7 @@ python app.py
 ```
 
 ## Dependencies
+
 - Flask
 - python-dotenv
 - langchain
@@ -79,22 +122,27 @@ python app.py
 - langchain-community
 - faiss-cpu
 - numpy
+
 #### Install them all with
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ## Troubleshooting
+
 - API Key Error: Double-check that your GOOGLE_API_KEY is correct and has access to Gemini.
 - FAISS installation issues: If you run into errors with faiss-cpu, try reinstalling or switching to faiss-gpu (if you have a compatible GPU).
 - Port Conflict: Change the PORT in .env if 10000 is in use.
 
 ## How It Works
-1. Resume examples from resume_templates.txt are loaded and chunked using CharacterTextSplitter.
+
+1. Resume examples from resume_examples.txt are loaded and chunked using CharacterTextSplitter.
 2. These chunks are embedded with GoogleGenerativeAIEmbeddings and stored in FAISS for semantic search.
 3. When a user submits input, the app searches for relevant examples from the vector store.
 4. These examples + user input are sent to Gemini via a structured PromptTemplate.
 5. Gemini returns a tailored resume, which is parsed and rendered in HTML.
 
 ## License
+
 This project is licensed under the MIT License. See the LICENSE file for details.
