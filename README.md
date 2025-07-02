@@ -89,15 +89,14 @@ PORT=10000
 
 - Personal Portfolio Website: Developed a fully responsive personal website using Flask and deployed on Heroku to showcase projects.
 - E-commerce Analytics Dashboard: Built a data visualization tool with Plotly Dash to track sales metrics and customer behavior for a mock e-commerce site.
-  ```
 
-  ```
+````
 
 ### 6. Running the App
 
 ```bash
 python app.py
-```
+````
 
 #### Visit the app at: http://localhost:10000
 
