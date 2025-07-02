@@ -36,3 +36,26 @@ cd pause-ai-resume-builder
 python -m venv venv
 venv\Scripts\activate
 ```
+#### macOS / Linux
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Set Up Environment Variables
+#### Create a .env file in the root of the project:
+```bash
+GOOGLE_API_KEY=your_google_api_key
+PORT=10000
+```
+
+### 5. Running the App
+```bash
+python app.py
+```
+#### Visit the app at: http://localhost:10000
