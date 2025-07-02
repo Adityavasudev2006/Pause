@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Resume Builder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+      :root {
+        --bg-color: #111827;
+        --card-bg: #1f2937;
+        --text-color: #f9fafb;
+        --text-muted-color: #9ca3af;
+        --accent-color: #8b5cf6;
+        --accent-color-hover: #7c3aed;
+        --border-color: #374151;
+        --button-text-color: #ffffff;
+        --shadow-color: rgba(0, 0, 0, 0.2);
+        --error-color: #f87171;
+        --error-bg: rgba(239, 68, 68, 0.1);
+        --resume-bg: #ffffff;
+        --resume-text-color: #111827;
+        --resume-text-muted-color: #374151;
+        --resume-border-color: #e5e7eb;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        line-height: 1.7;
+        margin: 0;
+        padding: 3em 2em;
+        background: var(--bg-color);
+        color: var(--text-color);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .container {
+        max-width: 800px;
+        width: 100%;
+        margin: auto;
+        animation: fadeIn 1s ease-out forwards;
+      }
+
+      h1 {
+        text-align: center;
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-size: 4rem;
+        color: var(--text-color);
+        margin-bottom: 0.25em;
+        line-height: 1.2;
+        letter-spacing: -1px;
+      }
+
+      .subtitle {
+        text-align: center;
+        color: var(--text-muted-color);
+        margin-bottom: 3em;
+        font-size: 1.1rem;
+      }
+
+      form {
+        --stagger-delay: 100ms;
+      }
+      form > * {
+        animation: fadeInUp 0.7s ease-out both;
+      }
+      form label:nth-of-type(1),
+      form input:nth-of-type(1) {
+        animation-delay: calc(1 * var(--stagger-delay));
+      }
+      form label:nth-of-type(2),
+      form input:nth-of-type(2) {
+        animation-delay: calc(2 * var(--stagger-delay));
+      }
+      form label:nth-of-type(3),
+      form textarea:nth-of-type(1) {
+        animation-delay: calc(3 * var(--stagger-delay));
+      }
+      form label:nth-of-type(4),
+      form textarea:nth-of-type(2) {
+        animation-delay: calc(4 * var(--stagger-delay));
+      }
+      form button {
+        animation-delay: calc(5 * var(--stagger-delay));
+      }
+
+      form label {
+        display: block;
+        margin-top: 1.5em;
+        font-weight: 500;
+        margin-bottom: 0.5em;
+        color: var(--text-color);
+      }
+
+      form input,
+      form textarea {
+        width: 100%;
+        padding: 14px 16px;
+        margin-top: 5px;
+        border-radius: 8px;
+        border: 1px solid var(--border-color);
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        transition: border-color 0.3s, box-shadow 0.3s;
+        box-sizing: border-box;
+      }
+
+      form input::placeholder,
+      form textarea::placeholder {
+        color: var(--text-muted-color);
+      }
+      form input:focus,
+      form textarea:focus {
+        outline: none;
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+      }
+      form textarea {
+        min-height: 160px;
+        resize: vertical;
+      }
+
+      form button {
+        background-color: var(--accent-color);
+        color: var(--button-text-color);
+        padding: 16px 25px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        margin-top: 2.5em;
+        width: 100%;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+      }
+      form button:hover:not(:disabled) {
+        background-color: var(--accent-color-hover);
+        transform: translateY(-2px);
+      }
+      form button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border: 3px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      .error {
+        color: var(--error-color);
+        background-color: var(--error-bg);
+        border: 1px solid var(--error-color);
+        padding: 1em;
+        border-radius: 8px;
+        margin-top: 2em;
+        animation: fadeInUp 0.5s ease-out;
+      }
+
+      .resume-output {
+        margin-top: 3em;
+        border: 1px solid var(--border-color);
+        padding: 2.5em;
+        border-radius: 16px;
+        background: var(--resume-bg);
+        animation: fadeInUp 0.8s 0.2s ease-out forwards;
+        opacity: 0;
+        box-shadow: 0 10px 25px -5px var(--shadow-color);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+      }
+      .resume-output:hover {
+        transform: scale(1.02);
+        box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.3);
+      }
+      .resume-output h2 {
+        margin-top: 0;
+        text-align: center;
+        font-weight: 600;
+        font-size: 1.75rem;
+        color: var(--resume-text-color);
+        margin-bottom: 1.5em;
+      }
+      .resume-output h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--resume-text-color);
+        border-bottom: 1px solid var(--resume-border-color);
+        padding-bottom: 10px;
+        margin-top: 2em;
+      }
+      .resume-output h3:first-of-type {
+        margin-top: 0;
+      }
+      .resume-output pre {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        font-family: "Inter", sans-serif;
+        font-size: 1rem;
+        color: var(--resume-text-muted-color);
+        background-color: transparent;
+        padding: 0.5em 0;
+        border-radius: 0;
+        border: none;
+      }
+      .resume-output .job-title {
+        margin-top: 1.2em;
+        margin-bottom: 0.5em;
+        color: var(--resume-text-color);
+      }
+      .resume-output ul {
+        margin-top: 0;
+        padding-left: 20px;
+        color: var(--resume-text-muted-color);
+      }
+      .resume-output li {
+        margin-bottom: 0.5em;
+        padding-left: 5px;
+      }
+
+      #download-btn {
+        position: absolute;
+        top: 1.5em;
+        right: 1.5em;
+        background-color: #f3f4f6;
+        color: #374151;
+        border: 1px solid #e5e7eb;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.2s;
+        padding: 0;
+      }
+      #download-btn:hover {
+        background-color: #e5e7eb;
+        transform: scale(1.1);
+      }
+      #download-btn svg {
+        width: 22px;
+        height: 22px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>AI Resume Builder</h1>
+      <p class="subtitle">
+        Instantly craft a professional resume tailored to your dream job.
+      </p>
+
+      <form id="resume-form" action="/" method="post">
+        <label for="full_name">Full Name</label
+        ><input
+          type="text"
+          id="full_name"
+          name="full_name"
+          required
+          placeholder="e.g., Jane Doe"
+        />
+        <label for="contact_info">Contact Info</label
+        ><input
+          type="text"
+          id="contact_info"
+          name="contact_info"
+          required
+          placeholder="Email, Phone, LinkedIn URL"
+        />
+        <label for="job_description">Target Job Description</label
+        ><textarea
+          id="job_description"
+          name="job_description"
+          required
+          placeholder="Paste the full job description here..."
+        ></textarea>
+        <label for="user_details">Your Raw Experience & Skills</label
+        ><textarea
+          id="user_details"
+          name="user_details"
+          required
+          placeholder="Paste your unformatted work history, skills, education, etc."
+        ></textarea>
+        <button type="submit" id="generate-btn">
+          <span id="btn-text">Generate Resume</span>
+          <div class="spinner" id="spinner" style="display: none"></div>
+        </button>
+      </form>
+
+      {% if error_message %}
+      <div class="error">{{ error_message }}</div>
+      {% endif %} {% if resume and resume.name %}
+      <div class="resume-output" id="resume-output">
+        <button id="download-btn" title="Download as PDF">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
+            />
+          </svg>
+        </button>
+
+        <h2>Your Tailored Resume</h2>
+        <h3>{{ resume.name }}</h3>
+        <pre>{{ resume.contact }}</pre>
+        <h3>Professional Summary</h3>
+        <pre>{{ resume.summary }}</pre>
+        <h3>Work Experience</h3>
+        <pre id="experience-content">{{ resume.experience }}</pre>
+        <h3>Skills</h3>
+        <pre id="skills-content">{{ resume.skills }}</pre>
+      </div>
+      {% endif %}
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const resumeForm = document.getElementById("resume-form");
+        if (resumeForm) {
+          resumeForm.addEventListener("submit", function () {
+            const generateBtn = document.getElementById("generate-btn");
+            const btnText = document.getElementById("btn-text");
+            const spinner = document.getElementById("spinner");
+            generateBtn.disabled = true;
+            btnText.style.display = "none";
+            spinner.style.display = "block";
+          });
+        }
+
+        const resumeOutput = document.getElementById("resume-output");
+        if (resumeOutput) {
+          document.getElementById("full_name").value = "";
+          document.getElementById("contact_info").value = "";
+          document.getElementById("job_description").value = "";
+          document.getElementById("user_details").value = "";
+
+          function formatResumeContent() {
+            const skillsPre = document.getElementById("skills-content");
+            if (skillsPre) {
+              let skillsText = skillsPre.innerHTML;
+              const formattedSkills = skillsText.replace(
+                /\*\*(.*?)\*\*/g,
+                "<strong>$1</strong>"
+              );
+              skillsPre.innerHTML = formattedSkills;
+              skillsPre.style.whiteSpace = "pre-line";
+            }
+            const experiencePre = document.getElementById("experience-content");
+            if (experiencePre) {
+              const experienceText = experiencePre.innerText;
+              const lines = experienceText
+                .split("\n")
+                .filter((line) => line.trim() !== "");
+              let newHtml = "";
+              let inList = false;
+              lines.forEach((line) => {
+                const trimmedLine = line.trim();
+                if (
+                  trimmedLine.startsWith("**") &&
+                  trimmedLine.endsWith("**")
+                ) {
+                  if (inList) {
+                    newHtml += "</ul>";
+                    inList = false;
+                  }
+                  const headingText = trimmedLine.substring(
+                    2,
+                    trimmedLine.length - 2
+                  );
+                  newHtml += `<p class="job-title"><strong>${headingText}</strong></p>`;
+                } else if (trimmedLine.startsWith("* ")) {
+                  if (!inList) {
+                    newHtml += "<ul>";
+                    inList = true;
+                  }
+                  const listItemText = trimmedLine.substring(2);
+                  newHtml += `<li>${listItemText}</li>`;
+                }
+              });
+              if (inList) {
+                newHtml += "</ul>";
+              }
+              const formattedDiv = document.createElement("div");
+              formattedDiv.innerHTML = newHtml;
+              experiencePre.parentNode.replaceChild(
+                formattedDiv,
+                experiencePre
+              );
+            }
+          }
+          formatResumeContent();
+
+          const downloadBtn = document.getElementById("download-btn");
+          const { jsPDF } = window.jspdf;
+
+          downloadBtn.addEventListener("click", () => {
+            downloadBtn.style.display = "none";
+
+            const resumeToCapture = document.getElementById("resume-output");
+
+            html2canvas(resumeToCapture, {
+              scale: 2,
+              useCORS: true,
+              logging: false,
+            })
+              .then((canvas) => {
+                const imgData = canvas.toDataURL("image/png");
+                const pdf = new jsPDF("p", "mm", "a4");
+
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+                pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                pdf.save("AI-Generated-Resume.pdf");
+
+                downloadBtn.style.display = "flex";
+              })
+              .catch((err) => {
+                console.error("Error generating PDF:", err);
+                downloadBtn.style.display = "flex";
+              });
+          });
+
+          resumeOutput.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    </script>
+  </body>
+</html>
