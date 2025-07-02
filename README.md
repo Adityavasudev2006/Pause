@@ -61,6 +61,7 @@ python app.py
 #### Visit the app at: http://localhost:10000
 
 ## File Structure
+```
 ├── app.py                    # Main Flask application
 ├── templates/                # HTML templates (index.html)
 ├── static/                   # CSS or JS assets
@@ -68,15 +69,16 @@ python app.py
 ├── .env                      # Environment variables
 ├── requirements.txt          # Python dependencies
 └── README.md                 # Project documentation
+```
 
 ## Dependencies
--Flask
--python-dotenv
--langchain
--langchain-google-genai
--langchain-community
--faiss-cpu
--numpy
+- Flask
+- python-dotenv
+- langchain
+- langchain-google-genai
+- langchain-community
+- faiss-cpu
+- numpy
 #### Install them all with
 ```bash
 pip install -r requirements.txt
@@ -88,7 +90,7 @@ pip install -r requirements.txt
 -Port Conflict: Change the PORT in .env if 10000 is in use.
 
 ## How It Works
-1.Resume examples from resume_templates.txt are loaded and chunked using CharacterTextSplitter.
+Resume examples from resume_templates.txt are loaded and chunked using CharacterTextSplitter.
 2.These chunks are embedded with GoogleGenerativeAIEmbeddings and stored in FAISS for semantic search.
 3.When a user submits input, the app searches for relevant examples from the vector store.
 4.These examples + user input are sent to Gemini via a structured PromptTemplate.
