@@ -85,16 +85,16 @@ pip install -r requirements.txt
 ```
 
 ## Troubleshooting
--API Key Error: Double-check that your GOOGLE_API_KEY is correct and has access to Gemini.
--FAISS installation issues: If you run into errors with faiss-cpu, try reinstalling or switching to faiss-gpu (if you have a compatible GPU).
--Port Conflict: Change the PORT in .env if 10000 is in use.
+- API Key Error: Double-check that your GOOGLE_API_KEY is correct and has access to Gemini.
+- FAISS installation issues: If you run into errors with faiss-cpu, try reinstalling or switching to faiss-gpu (if you have a compatible GPU).
+- Port Conflict: Change the PORT in .env if 10000 is in use.
 
 ## How It Works
-Resume examples from resume_templates.txt are loaded and chunked using CharacterTextSplitter.
-2.These chunks are embedded with GoogleGenerativeAIEmbeddings and stored in FAISS for semantic search.
-3.When a user submits input, the app searches for relevant examples from the vector store.
-4.These examples + user input are sent to Gemini via a structured PromptTemplate.
-5.Gemini returns a tailored resume, which is parsed and rendered in HTML.
+1. Resume examples from resume_templates.txt are loaded and chunked using CharacterTextSplitter.
+2. These chunks are embedded with GoogleGenerativeAIEmbeddings and stored in FAISS for semantic search.
+3. When a user submits input, the app searches for relevant examples from the vector store.
+4. These examples + user input are sent to Gemini via a structured PromptTemplate.
+5. Gemini returns a tailored resume, which is parsed and rendered in HTML.
 
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
