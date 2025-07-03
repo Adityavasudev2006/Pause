@@ -98,11 +98,11 @@ python app.py
 
 #### Visit the app at: http://localhost:10000
 
-![Form Interface](screenshots/Pic1.png)
+![Form Interface](screenshots/output/Pic1.png)
 
-![Form Interface Part2](screenshots/Pic2.png)
+![Form Interface Part2](screenshots/output/Pic2.png)
 
-![Generated Resume](screenshots/Pic3.png)
+![Generated Resume](screenshots/output/Pic3.png)
 
 ## File Structure
 
